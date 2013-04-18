@@ -37,18 +37,18 @@ public class Main{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		JComponent panel = new JComponent("gdfhkjhfa");
-		JLabel labelt1 = new JLabel("label1");
-		JLabel labelt2 = new JLabel("label2");
-		GroupLayout layout = new GroupLayout(panel);
-		panel.setLayout(layout);
+		//JComponent panel = new JComponent("gdfhkjhfa");
+		//JLabel labelt1 = new JLabel("label1");
+		//JLabel labelt2 = new JLabel("label2");
+		//GroupLayout layout = new GroupLayout(panel);
+		//panel.setLayout(layout);
 		
-		layout.setAutoCreateContainerGaps(true);
-		GroupLayout.SequentialGroup	hGroup = layout.createSequentialGroup();
-		hGroup.addGroup(layout.createParallelGroup().addComponent(labelt1).addComponent(labelt2));
-		layout.setHorizontalGroup(hGroup);
+		//layout.setAutoCreateContainerGaps(true);
+		//GroupLayout.SequentialGroup	hGroup = layout.createSequentialGroup();
+		//hGroup.addGroup(layout.createParallelGroup().addComponent(labelt1).addComponent(labelt2));
+		//layout.setHorizontalGroup(hGroup);
 		
-		panel.setVisible(true);
+		//panel.setVisible(true);
 		
 		Main openMain = new Main();
 		//Container cont = null;
