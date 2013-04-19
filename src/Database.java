@@ -33,7 +33,6 @@ public class Database {
 			try
 			{
 			statement.execute("drop table if exists studname");
-			statement.execute("drop table if exists book");
 			statement.execute("drop table if exists items");
 			statement.execute("create table studname(id integer, name string)");
 			statement.execute("create table items(item string, number integer)");
@@ -61,6 +60,55 @@ public class Database {
 			}
 		}
 	}
+	
+	//initialize the DB :create new table
+		public void initialDBitems(String tblnm){
+			
+			try
+			{
+			Class.forName("org.sqlite.JDBC");
+			}
+			catch(ClassNotFoundException e)
+			{
+				System.out.println("sqlite JDBC Class not found!");
+			}
+			Connection connection = null;
+			try
+			{
+				connection = DriverManager.getConnection("jdbc:sqlite:D:\\GitHub\\JDatabase\\DB.db");
+				Statement statement = connection.createStatement();
+				statement.setQueryTimeout(30);
+				try
+				{
+				statement.execute("drop table if exists studname");
+				statement.execute("drop table if exists book");
+				statement.execute("drop table if exists items");
+				statement.execute("create table studname(id integer, name string)");
+				statement.execute("create table items(item string, number integer)");
+				}
+				catch(Exception e)
+				{
+					System.out.println("Cannot create Database!");
+				}
+			}
+			catch(SQLException e)
+			{
+				System.err.println(e.getMessage()); // return error if the DB is unavailable/disable to connect 
+			}
+			finally
+			{
+				try
+				{
+					if(connection != null){
+						connection.close(); //close connection
+					}
+				}
+				catch(SQLException e)
+				{
+					System.err.println(e);
+				}
+			}
+		}
 	
 	public void inputDB(String Tblname ,int id, String str){
 		try
@@ -127,25 +175,39 @@ public class Database {
 			connection = DriverManager.getConnection("jdbc:sqlite:D:\\GitHub\\JDatabase\\DB.db");
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);
+			
 			try
 			{
-			//statement.execute("select * from " + Tblname);
-			//ResultSet rs=statement.executeQuery("select * from " + Tblname + " where item=" + item);
+			statement.executeQuery("select * from " + Tblname);
+
+				try
+				{
+					
+				ResultSet rs=statement.executeQuery("select * from " + Tblname + " where item='" + item + "'");
+				String stnum=rs.getString("number");
+				number=Integer.parseInt(stnum) + number;
+				statement.execute("update " + Tblname +" set number="+ number +" where item='" + item + "'");
 				
-				statement.execute("select * from " + Tblname);
-				statement.execute("insert into " + Tblname +" values('"+ item +"'," + number + ")");
-				
-			ResultSet rs=statement.executeQuery("select * from " + Tblname);
-			String stnum=rs.getString("number");
-			number=Integer.parseInt(stnum) + number;
-			statement.execute("update " + Tblname +" set number="+ number +" where item='" + item + "'");
-			//ResultSet rs=statement.executeQuery("select * from " + Tblname);
-			System.out.println("item=" + rs.getString("item"));
-			System.out.println("number=" + rs.getString("number"));
+				//Check database
+				ResultSet rs2=statement.executeQuery("select * from " + Tblname);
+					while(rs2.next())
+					{
+						System.out.println("item=" + rs2.getString("item"));
+						System.out.println("number=" + rs2.getString("number"));
+					}
+					System.out.println("####");
+				}
+				catch(Exception e)
+				{
+					
+					//initialDB();
+					statement.execute("insert into " + Tblname +" values('"+ item +"'," + number + ")");
+				}
 			}
 			catch(Exception e)
 			{
-				System.out.println("Database not found!");
+				System.out.println("Database not found! New Database");
+				initialDB();
 			}
 		}
 		catch(SQLException e)
