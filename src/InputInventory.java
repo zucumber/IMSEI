@@ -1,8 +1,10 @@
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -20,7 +22,14 @@ public class InputInventory {
 	/* Declare Frame*/
 	JFrame frInItem=new JFrame();
 	JFrame frConfirm=new JFrame();
-	JPanel panInItem = new JPanel();
+	JPanel panInItem1 = new JPanel();
+	JPanel panButton = new JPanel();
+	JPanel panTitle = new JPanel();
+	JPanel panLeft = new JPanel();
+	
+	JPanel container = new JPanel();
+	JPanel containerBottom = new JPanel();
+	
 	//JPanel panInItem = new JPanel(new BorderLayout(50,10));
 	
 	/*Declare Button*/
@@ -37,6 +46,7 @@ public class InputInventory {
     JLabel labBook=new JLabel("Book");
     JLabel labPencil=new JLabel("Pencil");
     JLabel labEraser=new JLabel("Eraser");
+    JLabel title=new JLabel("Input Inventory");
 	/**
 	 * @param args
 	 */
@@ -51,11 +61,24 @@ public class InputInventory {
 		comPencil.setSelectedIndex(pencil);
 		comEraser.setSelectedIndex(eraser);
 		
-		GroupLayout layInItem = new GroupLayout(panInItem);
-	    panInItem.setLayout(layInItem);
+		//layout for label and comboBox
+		GroupLayout layInItem = new GroupLayout(panInItem1);
+	    panInItem1.setLayout(layInItem);
+	    
+	    //layout for buttons
+	    GroupLayout layButton = new GroupLayout(panButton);
+	    panButton.setLayout(layButton);
+	    
+	   // panInItem2.setLayout(new FlowLayout());
+	    container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+	    containerBottom.setLayout(new BoxLayout(containerBottom, BoxLayout.X_AXIS));
+	    panTitle.add(title);
+	    
+	    
 	    
 	    //panel positioning by adding gaps
-	    panInItem.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+	    panInItem1.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+	    panButton.setBorder(BorderFactory.createEmptyBorder(0, 50, 100, 0));
 	    
 	    /*Fix the size of ComboBox*/
 	    comBook.setMaximumSize(comBook.getPreferredSize());
@@ -90,8 +113,20 @@ public class InputInventory {
 	    
 	    /*Horizontal Layout Instance*/
 	    GroupLayout.SequentialGroup leftToRight = layInItem.createSequentialGroup();
+	
+	    //buttons layout
+	    GroupLayout.SequentialGroup XlayButton = layButton.createSequentialGroup();
+	    GroupLayout.ParallelGroup XPar = layButton.createParallelGroup();
+	    XPar.addComponent(butInsert);
+	    XPar.addComponent(butCancel);
+	    XlayButton.addGroup(XPar);
 	    
+	    GroupLayout.SequentialGroup YlayButton = layButton.createSequentialGroup();
+	    YlayButton.addComponent(butInsert);
+	    YlayButton.addComponent(butCancel);
+	   	    
 	    /*Grouping Labels*/
+	    
 	    GroupLayout.ParallelGroup Label_Combo1 = layInItem.createParallelGroup();
 	    Label_Combo1.addComponent(labBook);
 	    Label_Combo1.addComponent(labPencil);
@@ -104,14 +139,16 @@ public class InputInventory {
 	    Label_Combo2.addComponent(comEraser);
 	    
 	    /*Grouping Buttons*/
-	    GroupLayout.ParallelGroup Buttons = layInItem.createParallelGroup();
-	    Buttons.addComponent(butInsert);
-	    Buttons.addComponent(butCancel);
+	   // GroupLayout.ParallelGroup Buttons = layInItem.createParallelGroup();
+	    //Buttons.addComponent(butInsert);
+	    //Buttons.addComponent(butCancel);
 	        
 	    /*Making a Horizontal Layout*/
 	    leftToRight.addGroup(Label_Combo1);
 	    leftToRight.addGroup(Label_Combo2);
-	    leftToRight.addGroup(Buttons);
+	    //leftToRight.addGroup(Buttons);
+	    //panButton.add(butInsert);
+	    //panButton.add(butCancel);
 
 	    
 	    /*Vertical Layout*/
@@ -121,12 +158,12 @@ public class InputInventory {
 	    GroupLayout.ParallelGroup row1 = layInItem.createParallelGroup();
 	    row1.addComponent(labBook);
 	    row1.addComponent(comBook);
-	    row1.addComponent(butInsert);
+	    //row1.addComponent(butInsert);
 	    /*Grouping Label and combo Box and Cancel button*/
 	    GroupLayout.ParallelGroup row2 = layInItem.createParallelGroup();
 	    row2.addComponent(labPencil);
 	    row2.addComponent(comPencil);
-	    row2.addComponent(butCancel);
+	   // row2.addComponent(butCancel);
 	    /*Grouping Label and combo Box*/
 	    GroupLayout.ParallelGroup row3 = layInItem.createParallelGroup();
 	    row3.addComponent(labEraser);
@@ -141,11 +178,25 @@ public class InputInventory {
 	    layInItem.setHorizontalGroup(leftToRight);
 	    layInItem.setVerticalGroup(topToBottom);
 	    
+	    layButton.setHorizontalGroup(XlayButton);
+	    layButton.setVerticalGroup(YlayButton);
+	    
 	    /*set gap between component in layout*/
 	    layInItem.setAutoCreateGaps(true);
+	    layButton.setAutoCreateGaps(true);
+	    
+	    //containerBottom.add(panLeft);//deploy containerLeft if needed
+	    containerBottom.add(panInItem1);
+	    containerBottom.add(panButton);
+	    //containerBottom.add(butInsert);
+	    //containerBottom.add(butCancel);
+	    container.add(panTitle);
+	   // container.add(panInItem1);
+	    container.add(containerBottom);
 	    
 	    /*setting frame*/
-		frInItem.add(panInItem);
+	    frInItem.add(container);
+		//frInItem.add(panInItem);
 	    frInItem.pack(); 
 	    
 	   /*starting location of frame*/
@@ -154,7 +205,7 @@ public class InputInventory {
 	    /*accept close button on WS*/
 	    frInItem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    //frInItem.setBounds(40, 40, 400, 400);
-	    frInItem.setSize(500, 500);
+	    frInItem.setSize(400, 300);
 	    frInItem.setVisible(true);
 	    
 	}
