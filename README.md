@@ -1,4 +1,4 @@
-Jdatabase
+IMSEI 
 =========
 
-Manage sqlite in java
+Easy and smart inventory management system for institutional  
